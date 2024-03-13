@@ -49,4 +49,9 @@ GameSchema.virtual('startTimeUnix').get(function () {
   return this.startTime.getTime();
 });
 
+GameSchema.virtual('playTime').get(function () {
+  if (this.endTime) return this.endTime.getTime() - this.startTime.getTime();
+  return Date.now() - this.startTime.getTime();
+});
+
 module.exports = mongoose.model('Game', GameSchema);
