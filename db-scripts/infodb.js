@@ -1,7 +1,8 @@
 // get database info
-const User = require('./../src/models/user');
-const Post = require('./../src/models/post');
-const Comment = require('./../src/models/comment');
+const Game = require('./../src/models/game');
+
+// to get database URI
+require('dotenv').config(); // this line cause me 30 mins to deBUG
 
 // const debug = require('debug')('custom-debug');
 const debug = (...str) => {
@@ -10,7 +11,7 @@ const debug = (...str) => {
   }
 };
 
-const mongoDB = process.argv.slice(2)[0] || 'mongodb+srv://minhhoccode111:xImH0F6m9Rg4EIQX@cluster0.qqat537.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
+const mongoDB = process.argv.slice(2)[0] ?? process.env.MONGODB_URI_DEVELOPMENT;
 
 const mongoose = require('mongoose');
 mongoose.set('strictQuery', false);
@@ -20,19 +21,11 @@ main().catch((err) => debug('some errors occur', err));
 async function main() {
   debug('about to connect to database');
   await mongoose.connect(mongoDB);
-  const userNum = await User.countDocuments({}).exec();
-  const postNum = await Post.countDocuments({}).exec();
-  const commentNum = await Comment.countDocuments({}).exec();
-  const users = await User.find({}).exec();
-  const posts = await Post.find({}).exec();
-  const comments = await Comment.find({}).exec();
+  const gameNum = await Game.countDocuments({}).exec();
+  const games = await Game.find({}).exec();
 
-  debug(`users belike: `, users);
-  debug(`posts belike: `, posts);
-  debug(`comments belike: `, comments);
-  debug(`number of user currently in database: ${userNum}`);
-  debug(`number of post currently in database: ${postNum}`);
-  debug(`number of comment currently in database: ${commentNum}`);
+  debug(`games belike: `, games);
+  debug(`number of game currently in database: ${gameNum}`);
   debug('connected');
   debug('about to disconnect to database');
   await mongoose.connection.close();

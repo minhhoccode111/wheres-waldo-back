@@ -1,6 +1,19 @@
-// modular
+const express = require('express');
+const router = express.Router();
 
-const authenticated = require('./authenticated');
-const unauthenticated = require('./unauthenticated');
+const IndexController = require('../controllers/indexController');
 
-module.exports = { authenticated, unauthenticated };
+// get all games've been played
+router.get('/game', IndexController.game_get);
+
+// create a new game
+router.post('/game', IndexController.game_post);
+
+// edit a game, like user's name or time found characters
+router.put('/game', IndexController.game_put);
+
+// clean up empty games
+router.delete('/game', IndexController.game_delete);
+
+
+module.exports = router;

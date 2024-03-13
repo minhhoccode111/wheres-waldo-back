@@ -1,6 +1,6 @@
 # Blog API TOP
 
-The **Project Blog API** is created according to the assignment from **The Odin Project** [course](https://www.theodinproject.com/lessons/nodejs-blog-api).
+The **Where's Waldo Back** is created according to the assignment from **The Odin Project** [course](https://www.theodinproject.com/lessons/nodejs-where-s-waldo-a-photo-tagging-app/).
 <br>
 <br>
 
@@ -10,51 +10,38 @@ The **Project Blog API** is created according to the assignment from **The Odin 
 
 ![Members Only Bcrypt Screenshot](/public/images/members-only-screenshot-password.png) -->
 
-## **Demo** [here](https://minhhoccode.vercel.app/)
+## **Demo** [here](https://whereswaldotop.vercel.app/)
 
 ## **Features**
 
-- CRUD actions
-- JSON Web Token Authentication
-- CORS to only allow requests from my frontend
-- RESTful API
+- Some features
 
 ## **Outcome**
 
-- Used **Express**
-- Used **MongoDb Atlas**
-- Used **express-validator**
-- Used **luxon**
-- Used **debug**
-- Used **dotenv**
-- Used **bcrypt**
-- Used **passport-jwt**
-- Used **jwt**
-- Used **cors**
+- Full-stack app
 
 ## **Idea to implement**
 
-- Request queries
-- Figure out how to handle text and response with their format (current the server will remove every `\n` new line character)
+- Multi maps
 
 ## **Getting Started**
 
 HTTPS
 
 ```bash
-git clone https://github.com/minhhoccode111/blog-back.git
+git clone https://github.com/minhhoccode111/wheres-waldo-back.git
 ```
 
 or SSH
 
 ```bash
-git clone git@github.com:minhhoccode111/blog-back.git
+git clone git@github.com:minhhoccode111/wheres-waldo-back.git
 ```
 
 then
 
 ```bash
-cd blog-back
+cd wheres-waldo-back
 npm install
 npm start
 ```
@@ -63,8 +50,6 @@ npm start
 
 - See [all my projects'](https://github.com/minhhoccode111/all-projects-live-demos) live demos
 
-- See my previous project [Members Only TOP](https://github.com/minhhoccode111/members-only-top)
-
-- See this project's frontend [Personal Portfolio](https://github.com/minhhoccode111/personal-portfolio/)
+- See my previous project [Blog API](https://github.com/minhhoccode111/blog-back)
 
 <!-- * See my next project []() -->
