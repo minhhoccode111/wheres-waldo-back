@@ -11,7 +11,7 @@ const debug = (...str) => {
   }
 };
 
-const mongoDB = process.argv.slice(2)[0] ?? process.env.MONGODB_URI_DEVELOPMENT;
+const mongoDB = process.argv.slice(2)[0] ?? process.env.DEVELOPMENT_DB;
 
 debug(mongoDB);
 

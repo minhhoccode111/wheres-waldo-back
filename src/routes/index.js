@@ -3,7 +3,7 @@ const router = express.Router();
 
 const IndexController = require('../controllers/indexController');
 
-// get all games've been played
+// get all games have been played
 router.get('/game', IndexController.game_get);
 
 // create a new game
@@ -14,6 +14,5 @@ router.put('/game', IndexController.game_put);
 
 // clean up empty games
 router.delete('/game', IndexController.game_delete);
-
 
 module.exports = router;

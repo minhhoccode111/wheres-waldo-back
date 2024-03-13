@@ -16,7 +16,7 @@ mongoose.set('strictQuery', false);
 // development database string
 
 // if production db is not defined then use the development
-const mongoDB = process.env.MONGODB_URI_PRODUCTION ||process.env.MONGODB_URI_DEVELOPMENT  ;
+const mongoDB = process.env.PRODUCTION_DB || process.env.DEVELOPMENT_DB;
 
 main()
   .then(() => debug('connected to database'))
@@ -64,7 +64,7 @@ app.use(express.static(path.join(__dirname, 'public'))); // server things in pub
 // handle api request
 const indexRouter = require('./src/routes/index'); // modular
 // this project only have 1 single route handler
-app.use('/api/v1/', indexRouter );
+app.use('/api/v1/', indexRouter);
 
 // if no route handle the request mean it a 404
 app.use(function (req, res, next) {

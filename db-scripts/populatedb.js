@@ -10,7 +10,7 @@ const custom = (...str) => {
   }
 };
 
-const mongoDB = process.argv.slice(2)[0] ?? process.env.MONGODB_URI_DEVELOPMENT;
+const mongoDB = process.argv.slice(2)[0] ?? process.env.DEVELOPMENT_DB;
 
 custom(mongoDB);
 
@@ -20,19 +20,19 @@ const mongoose = require('mongoose');
 mongoose.set('strictQuery', false);
 
 // TODO
-const gameCreate = async (index, startTime, firstFound, secondFound, endTime, name, gameId ) => {
+const gameCreate = async (index, startTime, firstFound, secondFound, endTime, name, gameId) => {
   const gameDetail = {
-		startTime, 
-		firstFound, 
-		secondFound,
-		endTime,
-		name,
-		gameId,
+    startTime,
+    firstFound,
+    secondFound,
+    endTime,
+    name,
+    gameId,
   };
   const game = new Game(gameDetail);
   await game.save();
   games[index] = game;
-  custom(`adding ${content} with id: ${game._id}`);
+  custom(`adding ${startTime} with id: ${game._id}`);
 };
 
 main().catch((err) => custom(err));
@@ -48,18 +48,52 @@ async function main() {
 }
 
 async function createGames() {
-	// await gameCreate(index, startTime, firstFound, secondFound, endTime, name, gameId ) 
+  // await gameCreate(index, startTime, firstFound, secondFound, endTime, name, gameId )
 
-	const first = Math.floor(Math.random() * 10000);
-	const second = Math.floor(Math.random() * 20000) + first;
-	const third = Math.floor(Math.random() * 30000) + second;
-	const now = new Date(Date.now()), firstFound = new Date(Date.now() + first), secondFound = new Date(Date.now() + second), endTime = new Date(Date.now() + third);
+  let first = Math.floor(Math.random() * 10000);
+  let second = Math.floor(Math.random() * 10000) + first;
+  let third = Math.floor(Math.random() * 10000) + second;
+  let now = new Date(Date.now()),
+    firstFound = new Date(Date.now() + first),
+    secondFound = new Date(Date.now() + second),
+    endTime = new Date(Date.now() + third);
+  await gameCreate(0, now, firstFound, secondFound, endTime, 'name0', 'gameid0');
 
-	await gameCreate(0, now, firstFound, secondFound, endTime, 'name0', 'gameid0' ) 
-	await gameCreate(1, now, firstFound, secondFound, endTime, 'name1', 'gameid1' ) 
-	await gameCreate(2, now, firstFound, secondFound, endTime, 'name2', 'gameid2' ) 
-	await gameCreate(3, now, firstFound, secondFound, endTime, 'name3', 'gameid3' ) 
-	await gameCreate(4, now, firstFound, secondFound, endTime, 'name4', 'gameid4' ) 
+  first = Math.floor(Math.random() * 10000);
+  second = Math.floor(Math.random() * 10000) + first;
+  third = Math.floor(Math.random() * 10000) + second;
+  now = new Date(Date.now()),
+    firstFound = new Date(Date.now() + first),
+    secondFound = new Date(Date.now() + second),
+    endTime = new Date(Date.now() + third);
+  await gameCreate(1, now, firstFound, secondFound, endTime, 'name1', 'gameid1');
+
+  first = Math.floor(Math.random() * 10000);
+  second = Math.floor(Math.random() * 10000) + first;
+  third = Math.floor(Math.random() * 10000) + second;
+  now = new Date(Date.now()),
+    firstFound = new Date(Date.now() + first),
+    secondFound = new Date(Date.now() + second),
+    endTime = new Date(Date.now() + third);
+  await gameCreate(2, now, firstFound, secondFound, endTime, 'name2', 'gameid2');
+
+  first = Math.floor(Math.random() * 10000);
+  second = Math.floor(Math.random() * 10000) + first;
+  third = Math.floor(Math.random() * 10000) + second;
+  now = new Date(Date.now()),
+    firstFound = new Date(Date.now() + first),
+    secondFound = new Date(Date.now() + second),
+    endTime = new Date(Date.now() + third);
+  await gameCreate(3, now, firstFound, secondFound, endTime, 'name3', 'gameid3');
+
+  first = Math.floor(Math.random() * 10000);
+  second = Math.floor(Math.random() * 10000) + first;
+  third = Math.floor(Math.random() * 10000) + second;
+  now = new Date(Date.now()),
+    firstFound = new Date(Date.now() + first),
+    secondFound = new Date(Date.now() + second),
+    endTime = new Date(Date.now() + third);
+  await gameCreate(4, now, firstFound, secondFound, endTime, 'name4', 'gameid4');
 
   const count = await Game.countDocuments({}).exec();
   custom(`Game models is having: ${count} documents`);
