@@ -33,7 +33,7 @@ async function main() {
 
 async function clearGame() {
   await Game.deleteMany({}).exec();
-  const count = await Comment.countDocuments({}).exec();
+  const count = await Game.countDocuments({}).exec();
   debug(`Game models is having: ${count} documents`);
   debug('Game cleared!');
 }
