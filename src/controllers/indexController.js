@@ -10,16 +10,15 @@ const Game = require('./../models/game');
 // debug
 const debug = require('debug')('xxxxxxxxxxxxxxxxxxxx-debug-xxxxxxxxxxxxxxxxxxxx');
 
-// mongoose to check valid req.params.postid
-const mongoose = require('mongoose');
-
 module.exports.game_get = asyncHandler(async (req, res) => {
   const games = await Game.find({}).exec();
 
   // manually sort playTime because it's virtual property
   const gamesSorted = games.sort((a, b) => a.playTime - b.playTime);
 
-  res.json({ games: gamesSorted });
+  debug(`get all game belike: `, gamesSorted);
+
+  res.status(200).json({ games: gamesSorted });
 });
 
 module.exports.game_post = asyncHandler(async (req, res) => {
@@ -29,28 +28,31 @@ module.exports.game_post = asyncHandler(async (req, res) => {
   debug(`the gameId req belike: `, gameId);
 
   const dateObj = new Date(startTime);
+  debug(`the dateObj belike: `, dateObj);
 
   const game = new Game({ startTime: dateObj, gameId });
+
+  debug(`the game created belike: `, game);
   await game.save();
 
   res.json(game);
 });
 
-// hard code positions to check when game_put because we don't want this in every game document TODO change to real position
+// hard code positions to check when game_put because we don't want this in every Game document
 const POSITIONS = {
   waldo: {
-    x: 10,
-    y: 10,
+    x: 61,
+    y: 38,
   },
 
   odlaw: {
     x: 10,
-    y: 10,
+    y: 36,
   },
 
   wizard: {
-    x: 10,
-    y: 10,
+    x: 26,
+    y: 36,
   },
 };
 
@@ -61,34 +63,68 @@ module.exports.game_put = [
 
     const oldGame = await Game.findOne({ gameId }).exec();
 
-    if (oldGame === null) {
-      return res.sendStatus(404);
-    }
-
-    // finish game and set name
+    // finish game and set username
     if (username !== undefined) {
       const newGame = new Game({
-        ...oldGame.toJSON(), // keep almost every old properties
-        name, // update name
-        _id: oldGame._id, // keep id
+        ...oldGame.toJSON(), // keep
+        _id: oldGame._id, // keep id, maybe don't need this
+        name: name ? name : 'Unknown', // update
       });
 
       await Game.findByIdAndUpdate(oldGame._id, newGame, {});
 
+      debug(`new update game belike: `, newGame);
+
+      // no extra info, redirect user to /score any way
       return res.sendStatus(200);
     }
 
-    // validate correct positions TODO add some prefix like +-2% (because user hardly place exactly the %position we want)
-    const characters = oldGame.characters.filter((char) => {
-      // if charname still exists in oldGame and position of charname is correct
-      if (char === charname && POSITIONS[charname].x === position.x && POSITIONS[charname].y === position.y) {
-        return false; // remove that char
+    // charname exists in oldGame.characters
+    // sth like ['waldo', 'wizard', 'odlaw']
+    // and position not undefined
+    if (oldGame.characters.indexOf(charname) > -1 && position) {
+      const diffX = POSITIONS[charname].x - position.x;
+      const diffY = POSITIONS[charname].y - position.y;
+      // position match hard coded POSITIONS (~+-1% difference)
+      if ((diffX > -2 && diffX < 2) || (diffY > -2 && diffY < 2)) {
+        // remove charname from oldGame.characters
+        const newGameCharacters = oldGame.characters.filter((c) => c !== charname);
+
+        const timeDateObj = new Date(time);
+        const newGame = new Game({
+          ...oldGame.toJSON(),
+          characters: newGameCharacters,
+          _id: oldGame._id, // keep id, maybe don't need this
+        });
+
+        debug(`the time in req.body.time belike: `, time);
+        debug(`the timeDateOb belike: `, timeDateObj);
+        debug(`the newGameCharacters belike: `, newGameCharacters);
+
+        // game end
+        if (newGameCharacters.length === 0) {
+          newGame.endTime = timeDateObj;
+        }
+        // first found
+        else if (newGameCharacters.length === 2) {
+          newGame.firstFound = timeDateObj;
+        }
+        // second found
+        else if (newGameCharacters.length === 1) {
+          newGame.secondFound = timeDateObj;
+        }
+
+        await Game.findByIdAndUpdate(oldGame._id, newGame, {});
+
+        debug(`new update game belike: `, newGame);
+
+        // send back to client so they can display
+        return res.status(200).send({ charname, time });
       }
+    }
 
-      return true; // keep
-    });
-
-    // TODO
+    // every other cases receive 400
+    return res.sendStatus(400);
   }),
 ];
 
@@ -97,8 +133,14 @@ module.exports.game_delete = asyncHandler(async (req, res) => {
     // clear games that don't have endTime
     await Game.deleteMany({ endTime: { $exists: false } });
 
-    res.sendStatus(200);
+    // send back to client to display
+    const games = await Game.find({}).exec();
+
+    debug(`clear empty games`);
+
+    res.state(200).send({ games });
   } catch (err) {
+    // not found
     res.sendStatus(404);
   }
 });
