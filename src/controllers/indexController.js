@@ -63,7 +63,6 @@ module.exports.game_put = [
 
     const oldGame = await Game.findOne({ gameId }).exec();
 
-    debug(`username in req belike: `, username);
     debug(`the body belike: `, req.body);
 
     // finish game and set username
@@ -71,7 +70,7 @@ module.exports.game_put = [
       const newGame = new Game({
         ...oldGame.toJSON(), // keep
         _id: oldGame._id, // keep id, maybe don't need this
-        username: username ? username : 'Unknown', // update
+        name: username ? username : 'Unknown', // update
       });
 
       await Game.findByIdAndUpdate(oldGame._id, newGame, {});
