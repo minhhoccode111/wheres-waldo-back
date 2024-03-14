@@ -140,7 +140,7 @@ module.exports.game_delete = asyncHandler(async (req, res) => {
 
     debug(`clear empty games`);
 
-    res.state(200).send({ games });
+    res.status(200).send({ games });
   } catch (err) {
     // not found
     res.sendStatus(404);
