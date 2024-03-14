@@ -63,12 +63,15 @@ module.exports.game_put = [
 
     const oldGame = await Game.findOne({ gameId }).exec();
 
+    debug(`username in req belike: `, username);
+    debug(`the body belike: `, req.body);
+
     // finish game and set username
-    if (username !== undefined) {
+    if (username) {
       const newGame = new Game({
         ...oldGame.toJSON(), // keep
         _id: oldGame._id, // keep id, maybe don't need this
-        name: name ? name : 'Unknown', // update
+        username: username ? username : 'Unknown', // update
       });
 
       await Game.findByIdAndUpdate(oldGame._id, newGame, {});
@@ -86,7 +89,7 @@ module.exports.game_put = [
       const diffX = POSITIONS[charname].x - position.x;
       const diffY = POSITIONS[charname].y - position.y;
       // position match hard coded POSITIONS (~+-1% difference)
-      if ((diffX > -2 && diffX < 2) || (diffY > -2 && diffY < 2)) {
+      if (diffX > -2 && diffX < 2 && diffY > -2 && diffY < 2) {
         // remove charname from oldGame.characters
         const newGameCharacters = oldGame.characters.filter((c) => c !== charname);
 
