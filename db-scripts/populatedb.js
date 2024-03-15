@@ -19,7 +19,6 @@ const games = [];
 const mongoose = require('mongoose');
 mongoose.set('strictQuery', false);
 
-// TODO
 const gameCreate = async (index, startTime, firstFound, secondFound, endTime, name, gameId) => {
   const gameDetail = {
     startTime,
@@ -62,37 +61,25 @@ async function createGames() {
   first = Math.floor(Math.random() * 10000);
   second = Math.floor(Math.random() * 10000) + first;
   third = Math.floor(Math.random() * 10000) + second;
-  now = new Date(Date.now()),
-    firstFound = new Date(Date.now() + first),
-    secondFound = new Date(Date.now() + second),
-    endTime = new Date(Date.now() + third);
+  (now = new Date(Date.now())), (firstFound = new Date(Date.now() + first)), (secondFound = new Date(Date.now() + second)), (endTime = new Date(Date.now() + third));
   await gameCreate(1, now, firstFound, secondFound, endTime, 'name1', 'gameid1');
 
   first = Math.floor(Math.random() * 10000);
   second = Math.floor(Math.random() * 10000) + first;
   third = Math.floor(Math.random() * 10000) + second;
-  now = new Date(Date.now()),
-    firstFound = new Date(Date.now() + first),
-    secondFound = new Date(Date.now() + second),
-    endTime = new Date(Date.now() + third);
+  (now = new Date(Date.now())), (firstFound = new Date(Date.now() + first)), (secondFound = new Date(Date.now() + second)), (endTime = new Date(Date.now() + third));
   await gameCreate(2, now, firstFound, secondFound, endTime, 'name2', 'gameid2');
 
   first = Math.floor(Math.random() * 10000);
   second = Math.floor(Math.random() * 10000) + first;
   third = Math.floor(Math.random() * 10000) + second;
-  now = new Date(Date.now()),
-    firstFound = new Date(Date.now() + first),
-    secondFound = new Date(Date.now() + second),
-    endTime = new Date(Date.now() + third);
+  (now = new Date(Date.now())), (firstFound = new Date(Date.now() + first)), (secondFound = new Date(Date.now() + second)), (endTime = new Date(Date.now() + third));
   await gameCreate(3, now, firstFound, secondFound, endTime, 'name3', 'gameid3');
 
   first = Math.floor(Math.random() * 10000);
   second = Math.floor(Math.random() * 10000) + first;
   third = Math.floor(Math.random() * 10000) + second;
-  now = new Date(Date.now()),
-    firstFound = new Date(Date.now() + first),
-    secondFound = new Date(Date.now() + second),
-    endTime = new Date(Date.now() + third);
+  (now = new Date(Date.now())), (firstFound = new Date(Date.now() + first)), (secondFound = new Date(Date.now() + second)), (endTime = new Date(Date.now() + third));
   await gameCreate(4, now, firstFound, secondFound, endTime, 'name4', 'gameid4');
 
   const count = await Game.countDocuments({}).exec();

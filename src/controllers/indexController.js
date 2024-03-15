@@ -2,7 +2,7 @@
 const asyncHandler = require('express-async-handler');
 
 // sanitize and validate data
-const { body, validationResult } = require('express-validator');
+const { body } = require('express-validator');
 
 // mongoose models
 const Game = require('./../models/game');
@@ -27,6 +27,7 @@ module.exports.game_post = asyncHandler(async (req, res) => {
   debug(`the startTime req belike: `, startTime);
   debug(`the gameId req belike: `, gameId);
 
+  // frontend send epoch so manually make it js date object
   const dateObj = new Date(startTime);
   debug(`the dateObj belike: `, dateObj);
 
@@ -38,7 +39,7 @@ module.exports.game_post = asyncHandler(async (req, res) => {
   res.json(game);
 });
 
-// hard code positions to check when game_put because we don't want this in every Game document
+// hard coded positions to check when game_put because we don't want this in every Game document, which can cause headache if something change and we have to keep things in sync
 const POSITIONS = {
   waldo: {
     x: 61,
@@ -65,7 +66,7 @@ module.exports.game_put = [
 
     debug(`the body belike: `, req.body);
 
-    // finish game and set username
+    // this condition means game ended and user send their name to store score
     if (username) {
       const newGame = new Game({
         ...oldGame.toJSON(), // keep
@@ -92,10 +93,13 @@ module.exports.game_put = [
         // remove charname from oldGame.characters
         const newGameCharacters = oldGame.characters.filter((c) => c !== charname);
 
+        // manually created js date object with time sent from client
         const timeDateObj = new Date(time);
+
+        // create new game to update from old game
         const newGame = new Game({
           ...oldGame.toJSON(),
-          characters: newGameCharacters,
+          characters: newGameCharacters, // update characters array
           _id: oldGame._id, // keep id, maybe don't need this
         });
 
@@ -103,6 +107,7 @@ module.exports.game_put = [
         debug(`the timeDateOb belike: `, timeDateObj);
         debug(`the newGameCharacters belike: `, newGameCharacters);
 
+        // update new game's found time base on characters left
         // game end
         if (newGameCharacters.length === 0) {
           newGame.endTime = timeDateObj;

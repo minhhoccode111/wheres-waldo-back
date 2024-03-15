@@ -1,4 +1,4 @@
-# Blog API TOP
+# Where's Waldo Backend
 
 The **Where's Waldo Back** is created according to the assignment from **The Odin Project** [course](https://www.theodinproject.com/lessons/nodejs-where-s-waldo-a-photo-tagging-app/).
 <br>
@@ -14,11 +14,13 @@ The **Where's Waldo Back** is created according to the assignment from **The Odi
 
 ## **Features**
 
-- Some features
+- RESTful API
+- Tracking user's clicks on server
+- Tracking user's time on server
 
 ## **Outcome**
 
-- Full-stack app
+- Simple Full-stack game
 
 ## **Idea to implement**
 
@@ -51,5 +53,7 @@ npm start
 - See [all my projects'](https://github.com/minhhoccode111/all-projects-live-demos) live demos
 
 - See my previous project [Blog API](https://github.com/minhhoccode111/blog-back)
+
+- See my this project frontend [Where's Waldo Front](https://github.com/minhhoccode111/wheres-waldo-front)
 
 <!-- * See my next project []() -->
